@@ -64,6 +64,19 @@ function isFish(pet: Fish | Bird): pet is Fish {
 'pet is Fish' 가 type predicate에 해당한다.
 isFish 함수가 어떤 변수를 받아서 실행 된다면 이후부터는 그 변수의 타입을 Fish로 narrowing 한다.
 
+### typeof operator
+
+typeof operator를 사용하면 타입 narrowing 가능하다.
+
+```ts 
+function padLeft(padding: number | string, input: string) {
+  if (typeof padding === "number") {
+    return new Array(padding + 1).join(" ") + input;
+  }
+  return padding + input;
+}
+```
+
 
 ## Interfaces
 
@@ -143,3 +156,23 @@ function fnE(x: number | null | undefined) {
 
 특히 컴파일 환경에서 체크하기 어려운 DOM 사용에서 유용하다.
 
+## 타입스크립트 선언 파일 d.ts
+
+타입스크립트로 작성되지 않은 자바스크립트 라이브러리를 사용할 때 해당 자바스크립트의 변수들의 타입만을 선언한 파일.  
+
+```ts
+//my-module.js
+const thing = 42;
+
+module.exports = { thing };
+
+//my-module.d.ts
+export declare const thing: number;
+
+//index.ts
+import { thing } from "./my-module"; 
+console.log(thing); 
+
+type TypeOfThing = typeof thing; 
+
+```
